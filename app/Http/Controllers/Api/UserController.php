@@ -6,11 +6,37 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 
+/**
+ * @OA\Info(
+ *     title="Laravel OpenApi",
+ *     version="0.1",   
+ *)
+ */
+
 class UserController extends Controller
 {
+
+
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *     path="/api/users",
+     *     tags={"Users"},
+     *     summary="Get all users",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(property="id", type="integer"),
+     *             @OA\Items(property="name", type="string"),
+     *             @OA\Items(property="email", type="string"),
+     *         )
+     *     ) 
+     *     )
+     *   )
+     *  )
      */
+
     public function index()
     {
         $user = User::paginate(10);
