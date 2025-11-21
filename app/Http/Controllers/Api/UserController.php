@@ -3,65 +3,47 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Resources\UserResource;
+use App\Services\UserService;
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    protected UserService $userService;
+
+    public function __construct(UserService $userService)
+    {
+        $this->middleware('auth:sanctum')->except(['index', 'store']);
+        $this->userService = $userService;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $user = User::paginate(10);
-        return response()->json($user);
+        $users = User::paginate(10);
+
+        return response()->json($users);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Store a newly created user (POST /api/users)
      */
-    public function create()
+    public function store(StoreUserRequest $request)
     {
-        //
-    }
+        try {
+            $validated = $request->validated();
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+            $user = $this->userService->createUser($validated);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+            return new UserResource($user);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'message' => 'Failed to create user',
+                'error'   => config('app.debug') ? $e->getMessage() : null,
+            ], 500);
+        }
     }
 }
