@@ -35,15 +35,17 @@ class UserPolicy
      */
     public function update(User $user, User $model): bool
     {
-        // Admin can edit anyone
-        if ($user->role === 'administrator') return true;
+        if ($user->role === 'administrator') {
+            return true;
+        }
 
-        // Manager can edit normal users
-        if ($user->role === 'manager' && $model->role === 'user') return true;
+        if ($user->role === 'manager' && $model->role === 'user') {
+            return true;
+        }
 
-        // Users can edit themselves
         return $user->id === $model->id;
     }
+
 
     public function delete(User $user, User $model): bool
     {
