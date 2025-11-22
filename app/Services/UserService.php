@@ -12,6 +12,9 @@ use App\Queries\UserQuery;
 
 class UserService
 {
+    /**
+     * @throws \Throwable
+     */
     public function createUser(array $data): User
     {
         DB::beginTransaction();
@@ -25,7 +28,7 @@ class UserService
                 'role' => $data['role'] ?? 'user',
             ]);
 
-            // contoh: kirim email (opsional)
+            // TODO: send welcome email
             // Mail::to($user->email)->send(new UserWelcomeMail($user));
 
             DB::commit();

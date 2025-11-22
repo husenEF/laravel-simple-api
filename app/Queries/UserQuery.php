@@ -9,9 +9,10 @@ class UserQuery
 {
     public static function apply(Request $request)
     {
-        $search  = $request->query('search');
-        $sortBy  = $request->query('sortBy', 'created_at'); // default sorting
-        $page    = $request->query('page', 1);
+        $search = $request->query('search');
+        $sortBy = $request->query('sortBy', 'created_at'); // default sorting
+        $page = $request->query('page', 1);
+        $sortDir = $request->query('sortDir', 'asc');
 
         $allowedSorts = ['name', 'email', 'created_at'];
         if (!in_array($sortBy, $allowedSorts)) {
@@ -27,7 +28,7 @@ class UserQuery
                 });
             })
             ->withCount('orders')
-            ->orderBy($sortBy, 'asc')
+            ->orderBy($sortBy, $sortDir)
             ->paginate(10, ['*'], 'page', $page);
     }
 }

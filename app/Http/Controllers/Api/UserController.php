@@ -7,6 +7,8 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Resources\UserResource;
 use App\Services\UserService;
 use Illuminate\Http\Request;
+use Dedoc\Scramble\Attributes\QueryParameter;
+
 
 class UserController extends Controller
 {
@@ -21,6 +23,10 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
+    #[QueryParameter('page', description: 'The page number for pagination.', type: 'int', default: 1, example: 1)]
+    #[QueryParameter('search', description: 'A search term to filter results.', type: 'string', example: 'keyword')]
+    #[QueryParameter('sortBy', description: 'The field to sort the results by. The Allowed fields: name, email, created_at ', type: 'string', default: 'created_at', example: 'name')]
+    #[QueryParameter('sortDir', description: 'The direction to sort the results. Allowed values: asc, desc', type: 'string', default: 'asc', example: 'desc')]
     public function index(Request $request)
     {
         $users = $this->userService->getUsers($request);
@@ -46,7 +52,7 @@ class UserController extends Controller
         } catch (\Throwable $e) {
             return response()->json([
                 'message' => 'Failed to create user',
-                'error'   => config('app.debug') ? $e->getMessage() : null,
+                'error' => config('app.debug') ? $e->getMessage() : null,
             ], 500);
         }
     }
