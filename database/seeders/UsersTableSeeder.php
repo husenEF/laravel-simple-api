@@ -13,7 +13,7 @@ class UsersTableSeeder extends Seeder
      */
     public function run(): void
     {
-        // Admin
+        // create Admin
         User::create([
             'name' => 'Admin User',
             'email' => 'admin@example.com',
@@ -22,7 +22,7 @@ class UsersTableSeeder extends Seeder
             'active' => true,
         ]);
 
-        // Manager
+        // create Manager
         User::create([
             'name' => 'Manager User',
             'email' => 'manager@example.com',

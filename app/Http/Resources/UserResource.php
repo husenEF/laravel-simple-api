@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 
-
 class UserResource extends JsonResource
 {
     /**
@@ -16,18 +15,18 @@ class UserResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
-            'id'           => $this->id,
-            'email'        => $this->email,
-            'name'         => $this->name,
-            'role'         => $this->role,
-            'created_at'   => $this->created_at,
-            'orders_count' => $this->orders_count ?? 0,
 
-            // policy-based
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'email' => $this->email,
+            'role' => $this->role,
+            'created_at' => $this->created_at,
+            'orders_count' => $this->orders_count,
             'can_edit' => auth()->check()
-                ? auth()->user()->can('update', $this->resource)
+                ? auth()->user()->canEditUser($this->resource)
                 : false,
         ];
     }
+
 }

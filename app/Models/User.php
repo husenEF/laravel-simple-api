@@ -2,16 +2,13 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use App\Models\Order;
 
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
     /**
@@ -23,6 +20,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -50,7 +48,30 @@ class User extends Authenticatable
 
     public function orders()
     {
-        return $this->hasMany(Order::class);  // Now works
+        return $this->hasMany(Order::class);
     }
 
+    public function isAdministrator(): bool
+    {
+        return $this->role === 'administrator';
+    }
+
+    public function isManager(): bool
+    {
+        return $this->role === 'manager';
+    }
+
+    public function isNormalUser(): bool
+    {
+        return $this->role === 'user';
+    }
+
+    public function canEditUser(User $target): bool
+    {
+        if ($this->isAdministrator() || $this->isManager()) {
+            return $target->isNormalUser();
+        }
+
+        return $this->id === $target->id;
+    }
 }

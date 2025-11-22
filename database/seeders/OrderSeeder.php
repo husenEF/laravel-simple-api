@@ -13,7 +13,7 @@ class OrderSeeder extends Seeder
      */
     public function run(): void
     {
-        $users = User::whereIn('role', ['user', 'manager', 'administrator'])->get();
+        $users = User::get();
 
         foreach ($users as $user) {
             Order::factory(rand(1, 10))->create([
