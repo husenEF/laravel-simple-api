@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Resources\UserResource;
 use App\Services\UserService;
-use App\Models\User;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -21,12 +21,16 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::paginate(10);
+        $users = $this->userService->getUsers($request);
 
-        return response()->json($users);
+        return UserResource::collection($users)
+            ->additional([
+                'page' => $users->currentPage(),
+            ]);
     }
+
 
     /**
      * Store a newly created user (POST /api/users)

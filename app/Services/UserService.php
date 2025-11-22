@@ -6,6 +6,9 @@ use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
+
+use App\Queries\UserQuery;
 
 class UserService
 {
@@ -16,10 +19,10 @@ class UserService
         try {
 
             $user = User::create([
-                'name'     => $data['name'],
-                'email'    => $data['email'],
+                'name' => $data['name'],
+                'email' => $data['email'],
                 'password' => Hash::make($data['password']),
-                'role'     => $data['role'] ?? 'user',
+                'role' => $data['role'] ?? 'user',
             ]);
 
             // contoh: kirim email (opsional)
@@ -28,17 +31,22 @@ class UserService
             DB::commit();
 
             return $user;
-
         } catch (\Throwable $e) {
 
             DB::rollBack();
 
             Log::error('Failed creating user', [
                 'error' => $e->getMessage(),
-                'data'  => $data,
+                'data' => $data,
             ]);
 
             throw $e;
         }
+    }
+
+
+    public function getUsers(Request $request)
+    {
+        return UserQuery::apply($request);
     }
 }
