@@ -33,6 +33,7 @@ class UserService
 
             Mail::to($user->email)->send(new UserWelcomeMail($user));
 
+
             $adminEmail = config('mail.admin_email'); // we will add this later
             Mail::to($adminEmail)->send(new AdminNewUserNotificationMail($user));
 
