@@ -15,7 +15,7 @@ class UserQuery
         $sortDir = $request->query('sortDir', 'asc');
 
         $allowedSorts = ['name', 'email', 'created_at'];
-        if (!in_array($sortBy, $allowedSorts)) {
+        if (! in_array($sortBy, $allowedSorts)) {
             $sortBy = 'created_at';
         }
 

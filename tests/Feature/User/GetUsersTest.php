@@ -3,7 +3,6 @@
 namespace Tests\Feature\User;
 
 use App\Models\User;
-use App\Models\Order;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -27,9 +26,9 @@ class GetUsersTest extends TestCase
                         'role',
                         'created_at',
                         'orders_count',
-                        'can_edit'
-                    ]
-                ]
+                        'can_edit',
+                    ],
+                ],
             ]);
     }
 }

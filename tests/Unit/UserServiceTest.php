@@ -16,7 +16,7 @@ class UserServiceTest extends TestCase
     {
         Mail::fake();
 
-        $service = new UserService();
+        $service = new UserService;
 
         $data = [
             'name' => 'Test User',

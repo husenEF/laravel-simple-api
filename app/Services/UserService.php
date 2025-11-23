@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
-
 class UserService
 {
     /**
@@ -33,10 +32,8 @@ class UserService
 
             Mail::to($user->email)->send(new UserWelcomeMail($user));
 
-
             $adminEmail = config('mail.admin_email'); // we will add this later
             Mail::to($adminEmail)->send(new AdminNewUserNotificationMail($user));
-
 
             DB::commit();
 
@@ -53,7 +50,6 @@ class UserService
             throw $e;
         }
     }
-
 
     public function getUsers(Request $request)
     {

@@ -2,11 +2,11 @@
 
 namespace Tests\Feature\User;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\UserWelcomeMail;
 use App\Mail\AdminNewUserNotificationMail;
+use App\Mail\UserWelcomeMail;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
+use Tests\TestCase;
 
 class CreateUserTest extends TestCase
 {
@@ -26,7 +26,7 @@ class CreateUserTest extends TestCase
         $response->assertStatus(201);
 
         $this->assertDatabaseHas('users', [
-            'email' => 'husen@example.com'
+            'email' => 'husen@example.com',
         ]);
 
         Mail::assertSent(UserWelcomeMail::class);
