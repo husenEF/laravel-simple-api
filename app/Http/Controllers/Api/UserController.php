@@ -6,9 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Resources\UserResource;
 use App\Services\UserService;
-use Illuminate\Http\Request;
 use Dedoc\Scramble\Attributes\QueryParameter;
-
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -36,7 +35,6 @@ class UserController extends Controller
                 'page' => $users->currentPage(),
             ]);
     }
-
 
     /**
      * Store a newly created user (POST /api/users)

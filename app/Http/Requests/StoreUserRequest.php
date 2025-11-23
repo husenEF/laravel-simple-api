@@ -22,14 +22,14 @@ class StoreUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'     => 'required|string',
-            'email'    => 'required|email|unique:users,email',
+            'name' => 'required|string',
+            'email' => 'required|email|unique:users,email',
             'password' => [
                 'required',
                 'confirmed',
                 'min:6',
                 'max:20',
-                'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%]).*$/'
+                'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%]).*$/',
             ],
         ];
     }
