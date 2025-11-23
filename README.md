@@ -23,6 +23,7 @@ Everything is designed in a way that another developer can easily read and exten
 - PHP 8+
 - Laravel Sanctum (optional for authentication)
 - Scramble (optional for API docs)
+- mailhog (optional for email testing)
 
 ---
 
@@ -32,6 +33,9 @@ Everything is designed in a way that another developer can easily read and exten
 composer install
 cp .env.example .env
 php artisan key:generate
+
+# run mailhog
+docker-compose -f docker/docker-compose.yml up -d
 ```
 
 Configure your database in `.env`, then run:
