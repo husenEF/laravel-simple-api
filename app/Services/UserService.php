@@ -2,13 +2,16 @@
 
 namespace App\Services;
 
+use App\Mail\AdminNewUserNotificationMail;
+use App\Mail\UserWelcomeMail;
 use App\Models\User;
+use App\Queries\UserQuery;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
-use App\Queries\UserQuery;
 
 class UserService
 {
@@ -28,8 +31,12 @@ class UserService
                 'role' => $data['role'] ?? 'user',
             ]);
 
-            // TODO: send welcome email
-            // Mail::to($user->email)->send(new UserWelcomeMail($user));
+            Mail::to($user->email)->send(new UserWelcomeMail($user));
+
+
+            $adminEmail = config('mail.admin_email'); // we will add this later
+            Mail::to($adminEmail)->send(new AdminNewUserNotificationMail($user));
+
 
             DB::commit();
 
